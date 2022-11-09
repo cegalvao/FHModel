@@ -9,7 +9,7 @@ Código do Projeto de Qualificação de doutorado de Carlos Eurico Galvão Rosa 
 * [ModelRotaFH.cs](https://github.com/cegalvao/FHModel/blob/master/ModelRotaFH.cs): Código gerador do Modelo e otimizador.
 * [Callbacks.cs](https://github.com/cegalvao/FHModel/blob/master/Callbacks.cs): Adaptação da Classe _Callback.cs_ do Gurobi para uso de _lazy constraints_.
 * [FHModel.csproj](https://github.com/cegalvao/FHModel/blob/master/FHModel.csproj) e [FHModel.sln](https://github.com/cegalvao/FHModel/blob/master/FHModel.sln): Arquivos da solução, gerados pelo Visual Studio.
-* [EsquemaUML.vsdx](https://github.com/cegalvao/FHModel/blob/master/EsquemaUML.vsdx): Modelagem da dependência dos tipos de objetos projetados para a solução.
+* [EsquemaUML.vsdx](https://github.com/cegalvao/FHModel/blob/master/EsquemaUML.vsdx) e  [EsquemaUML.png](https://github.com/cegalvao/FHModel/blob/master/EsquemaUML.png): Modelagem da dependência dos tipos de objetos projetados para a solução.
 * [FHClassTypes.cs](https://github.com/cegalvao/FHModel/blob/master/FHClassTypes.cs): Tipos de objetos principais.
 * [ModelParameters.cs](https://github.com/cegalvao/FHModel/blob/master/ModelParameters.cs): Parâmetros de Modelo.
 * [FW.cs](https://github.com/cegalvao/FHModel/blob/master/FW.cs): Implantação do algoritimo Floyd-Warshall.
