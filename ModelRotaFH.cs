@@ -1010,10 +1010,11 @@ namespace FHModel
             //\forall i \in F, \forall j \in A_i,\\ \forall p \in P, \forall b \in B_p, \\ h = b+1,\ldots,|B| \label{eq:B_AgC_seq}
             if (MP.UseConstraints[ind_cst] && MP.SlackExcessVars[ind_cst])
             {
-                foreach ((int, int) adjs in I.Std.Adjacentes)
+                for(int a = 0; a < I.Std.Adjacentes.Count; a++)
                 {
-                    int i = adjs.Item1;
-                    int j = adjs.Item2;
+                    Adj A = I.Std.Adjacentes[a];
+                    int i = A.Node1.Index;
+                    int j = A.Node2.Index;
                     for (int p = 0; p < NP; p++)
                     {
                         for (int b = 0; b < NB; b++)
@@ -1043,10 +1044,11 @@ namespace FHModel
             //\forall i \in F, \forall j \in A_i,\\ \forall b \in B_p,  \forall h \in B_p, \\ p = 1,\ldots,HP-1 \label{eq:B_AgC_consec}
             if (MP.UseConstraints[ind_cst] && MP.SlackExcessVars[ind_cst])
             {
-                foreach ((int, int) adjs in I.Std.Adjacentes)
+                for (int a=0; a< I.Std.Adjacentes.Count; a++)
                 {
-                    int i = adjs.Item1;
-                    int j = adjs.Item2;
+                    Adj A = I.Std.Adjacentes[a];
+                    int i = A.Node1.Index;
+                    int j = A.Node2.Index;
                     for (int p = 0; p < NP; p++)
                     {
                         for (int b = 0; b < NB; b++)
@@ -1873,12 +1875,13 @@ namespace FHModel
             //  \forall b \in B_p, \\ h = b+1,\ldots,|B| \label{eq:B_AgC_seq}
             if (MP.UseConstraints[ind_cst])
             {
-                foreach ((int, int) adjs in S.Adjacentes)
+                for(int a=0; a< S.Adjacentes.Count; a++)
                 {
-                    int i = adjs.Item1;
-                    int j = adjs.Item2;
-                    Node Ni = S.Nodes[i];
-                    Node Nj = S.Nodes[j];
+                    Adj A = I.Std.Adjacentes[a];
+                    Node? Ni = A.Node1;
+                    Node? Nj = A.Node2;
+                    int i = Ni.Index;
+                    int j = Nj.Index;
                     if (Ni.IsFMU && Nj.IsFMU)
                     {
                         FMU? fi = S.GetFMUByNode(Ni, S.FMUs);
@@ -1924,12 +1927,13 @@ namespace FHModel
             //  \forall h \in B_p, \\ p = 1,\ldots,HP-1 \label{eq:B_AgC_consec}
             if (MP.UseConstraints[ind_cst])
             {
-                foreach ((int, int) adjs in S.Adjacentes)
+                for (int a=0; a< S.Adjacentes.Count; a++)
                 {
-                    int i = adjs.Item1;
-                    int j = adjs.Item2;
-                    Node Ni = S.Nodes[i];
-                    Node Nj = S.Nodes[j];
+                    Adj A = S.Adjacentes[a];
+                    Node Ni = A.Node1;
+                    Node Nj = A.Node2;
+                    int i = Ni.Index;
+                    int j = Nj.Index;
                     if (Ni.IsFMU && Nj.IsFMU)
                     {
                         FMU? fi = S.GetFMUByNode(Ni, S.FMUs);
@@ -2315,56 +2319,7 @@ namespace FHModel
                 TM.Item1.Dispose();
             }
         }
-
-
-        /*
-public void SolveFromFile(bool ShowMess, string MPSFile, string MSTFile = "")
-{
-   string tipo = "FromFile";
-   string[] SplitName = MPSFile.Split('\\');
-   StringBuilder sbAux = new StringBuilder();
-   foreach (string str in SplitName)
-   {
-       if (SplitName.Last() != str)
-       {
-           sbAux.Append(str + "\\");
-       }
-   }
-   string path = sbAux.ToString();
-
-   string[] GetAgora = SplitName.Last().Split(new char[] { '(', ')' });
-   sbAux.Clear();
-   sbAux.Append(tipo);
-   sbAux.Append('(');
-
-   foreach (string ga in GetAgora)
-   {
-       if ((ga.Contains("_AM")) || (ga.Contains("_PM")))
-       {
-           string Agora = ga;
-       }
-       else if (GetAgora.Last() != ga)
-       {
-           sbAux.Append(ga);
-       }
-   }
-
-   sbAux.Append(')');
-   sbAux.Append("solved");
-
-   string problem = sbAux.ToString();
-   sbAux.Clear();
-
-   Ambiente = new GRBEnv();
-
-   GRBModel ModFromFile = new GRBModel(Ambiente, MPSFile);
-   if (MSTFile.Length > 0)
-   {
-       ModFromFile.Read(MSTFile);
-   }
-
-   OptimizeModel(problem, path, ToolBox.GetNow(), ModFromFile, ShowMess);
-}*/
+                
         public void OptimizeModel(string NomeArq, string Pasta, string Agora, 
                                   GRBModel OpModelo, bool ShowMess, ModelParameters MP,
                                   bool relax = false)
@@ -2482,15 +2437,12 @@ public void SolveFromFile(bool ShowMess, string MPSFile, string MSTFile = "")
                                          double term = 0)
         {
             GRBLinExpr expr = new GRBLinExpr();
-
             expr.AddTerm(1, Z[fmu_i, fmu_j, period_p]);
             for (int p = 0; p<period_p; p++)
             {
                 expr.AddTerm(-1, W[fmu_i, fmu_j, p]);
             }
-
             expr.AddConstant(-term);
-
             return expr;
         }
 
@@ -2499,13 +2451,11 @@ public void SolveFromFile(bool ShowMess, string MPSFile, string MSTFile = "")
                                           int CoefSlackExcess = 0, double term = 0)
         {
             GRBLinExpr expr = R_M_first_open(fmu_i, fmu_j, period_p, W, Z, term);
-
             if (CoefSlackExcess != 0)
             {
                 expr.AddTerm(CoefSlackExcess, Slk[fmu_i, fmu_j, period_p]);
                 expr.AddTerm(-CoefSlackExcess, Exc[fmu_i, fmu_j, period_p]);
             }
-
             return expr; 
         }
 
@@ -3316,6 +3266,22 @@ public void SolveFromFile(bool ShowMess, string MPSFile, string MSTFile = "")
         public void WriteSolution(Instance I, GRBModel M)
         {
             using StreamWriter fileSol = new($"{I.Std.PathInstance}[Sol]{I.Std.NameInstance}{I.Agora}.txt");
+            string fileHarv = $"{I.Std.PathInstance}[Harv]{I.Std.NameInstance}{I.Agora}.txt";
+            double[] vols_harv = new double[I.NumPeriods];
+            double[] prft_harv = new double[I.NumPeriods];
+
+            List<string> ListHarv = new();
+            StringBuilder[] harv_p = new StringBuilder[I.NumPeriods];
+            StringBuilder[] edge_p = new StringBuilder[I.NumPeriods];
+            for (int p = 0; p < I.NumPeriods; p++)
+            {
+                harv_p[p] = new StringBuilder();
+                harv_p[p].AppendLine($"\nPeriodo {p}:");
+                vols_harv[p] = 0.0;
+                prft_harv[p] = 0.0;
+                edge_p[p] = new StringBuilder();
+                edge_p[p].AppendLine($"\nCaminho {p}:");
+            }
 
             StringBuilder[] sb = new StringBuilder[2];
             sb[0] = new StringBuilder();
@@ -3333,7 +3299,6 @@ public void SolveFromFile(bool ShowMess, string MPSFile, string MSTFile = "")
 
             if (resp.Item1)
             {
-
                 using StreamWriter VarCSV = new($"{I.Std.PathInstance}{I.Std.NameInstance}{I.Agora}Vars.tsv");
                 StringBuilder sbvarcsv = new StringBuilder();
                 sbvarcsv.Append("VarX\ti1\ti2\ti3\ti4\tVal\n");
@@ -3342,6 +3307,7 @@ public void SolveFromFile(bool ShowMess, string MPSFile, string MSTFile = "")
                 string GBRuntime = M.Runtime.ToString("E");
                 sb[0].AppendLine($"Obj: {GBVal}\nRuntime: {GBRuntime}");
                 sb[0].AppendLine("Não Nulos");
+                List<String> varedges = new List<String> { "W", "Z", "Y", "U" };
                 foreach (GRBVar gb in GB)
                 {
                     //Solution File
@@ -3358,6 +3324,23 @@ public void SolveFromFile(bool ShowMess, string MPSFile, string MSTFile = "")
                             else
                             {
                                 sb[0].AppendLine(line);
+                                if (indices[0] == "X")
+                                {
+                                    int i = int.Parse(indices[2].Replace("I", "0"));
+                                    FMU? F = I.Std.GetFMUByNodeIndex(i, I.Std.FMUs);
+                                    int p = int.Parse(indices[3].Replace("P", "0"));
+                                    int b = int.Parse(indices[4].Replace("B", "0"));
+                                    harv_p[p].AppendLine($"FMU {F.Name} \t Bloco {b}");
+                                    vols_harv[p] += F.Vols.ToArray()[p];
+                                    prft_harv[p] += F.Prof.ToArray()[p];
+                                }
+                                else if (varedges.Contains(indices[0]))
+                                {
+                                    int i = int.Parse(indices[2].Replace("I", "0"));
+                                    int j = int.Parse(indices[3].Replace("J", "0"));
+                                    int p = int.Parse(indices[4].Replace("P", "0"));
+                                    harv_p[p].AppendLine($"{indices[0]} \tI:{i} \tJ: {j} \t{gb.X.ToString("F04")}");
+                                }
                             }                            
                         }
                     }
@@ -3406,6 +3389,16 @@ public void SolveFromFile(bool ShowMess, string MPSFile, string MSTFile = "")
                 fileSol.WriteLine(sb[1].ToString());
             }
 
+            for(int p=0; p<I.NumPeriods; p++)
+            {
+                ListHarv.Add(harv_p[p].ToString() + "\n");
+                ListHarv.Add($"Vols: {vols_harv[p]}\t");
+                ListHarv.Add($"Profit: {prft_harv[p]}\n");
+            }
+
+            ListHarv.Add($"Total Vols: {vols_harv.Sum()}\t");
+            ListHarv.Add($"Total Profit: {prft_harv.Sum()}\n");
+            ToolBox.FileTxt(fileHarv, ListHarv, false);
             fileSol.Close();
         }
     }

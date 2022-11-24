@@ -18,6 +18,8 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace FHModel
 {
+#pragma warning disable CA1822 // Marcar membros como estáticos
+#pragma warning disable CS8602 // Desreferência de uma referência possivelmente nula
     class Node
     {
         public string? NodeName;
@@ -134,8 +136,27 @@ namespace FHModel
         }
 
     }
+    class Adj
+    {
+        public Node? Node1;
+        public Node? Node2;
 
-    class Edge
+        public Adj(Node? node1, Node? node2)
+        {
+            if (node1 is not null && node2 is not null)
+            {
+                Node1 = node1;
+                Node2 = node2;
+            }
+        }
+
+        public override string? ToString()
+        {
+            return $"\t{Node1}\n\t{Node2}";
+        }
+    }
+
+        class Edge
     {
         public Node Node1;
         public Node Node2;
@@ -226,8 +247,8 @@ namespace FHModel
 
         public override string ToString()
         {
-            StringBuilder resp = new StringBuilder();
-            StringBuilder L = new StringBuilder();
+            StringBuilder resp = new();
+            StringBuilder L = new();
             resp.AppendLine("DataMatrixPar:");
             resp.AppendLine($"Cost_RoadOpening_ByUnity\t{Cost_RoadOpening_ByUnity.ToString()}");
             resp.AppendLine($"Cost_RoadMaintenance_ByUnity\t{Cost_RoadMaintenance_ByUnity.ToString()}");
@@ -318,14 +339,13 @@ namespace FHModel
         public string NameInstance;
         public string PathInstance;
         public List<Node>? Nodes = new();
-        //public List<int>? NodeIndex = new();
         public List<FMU>? FMUs = new();
         public List<Edge>? Edges = new();
-        public List<(int, int)> Adjacentes = new();
+        public List<Adj> Adjacentes = new();
         public DataMatrixPar MatrixPar;
 
         public FHStandards(string nameInstance,
-                           List<(int, int)> Adj,
+                           List<(string, string)> adj,
                            List<(string, double, double, bool, bool)> Fmu,
                            List<(string, double, double)> AreaAge,
                            List<(string, List<double>)> Vol,
@@ -336,34 +356,106 @@ namespace FHModel
             NameInstance = nameInstance;
             PathInstance = ToolBox.Path(nameInstance, "C");
             MatrixPar = matrixPar;
-            Adjacentes = Adj;
-            //List<Node> Nodes = new();
-            //List<FMU> FMUs = new();
-            //List<Edge> Edges = new();
 
+            FillNodes(Fmu);
+            AddAdjs(adj, Nodes);
+            AddFmus(Nodes, AreaAge, MatrixPar);
+            SetFMUVolume(Vol, FMUs);
+            SetFMUProfit(Prf, FMUs);
+            Edges = FillEdges(Edg, Nodes);
+        }
+
+        public FHStandards(string nameInstance,
+                           List<(int, int)> adj,
+                           List<(string, double, double, bool, bool)> Fmu,
+                           List<(string, double, double)> AreaAge,
+                           List<(string, List<double>)> Vol,
+                           List<(string, string, double, double, bool)> Edg,
+                           List<(string, List<double>)> Prf,
+                           DataMatrixPar matrixPar)
+        {
+            NameInstance = nameInstance;
+            PathInstance = ToolBox.Path(nameInstance, "C");
+            MatrixPar = matrixPar;
+
+            FillNodes(Fmu);
+            AddAdjs(adj, Nodes);
+            AddFmus(Nodes, AreaAge, MatrixPar);            
+            SetFMUVolume(Vol, FMUs);
+            SetFMUProfit(Prf, FMUs);
+            Edges = FillEdges(Edg, Nodes);
+        }
+
+        private void FillNodes(List<(string, double, double, bool, bool)> FList)
+        {
             //Setting Node list
-            foreach((string, double, double, bool, bool) F in Fmu)
+            foreach ((string, double, double, bool, bool) F in FList)
             {
                 Node N = new(F.Item2, F.Item3, Nodes.Count, F.Item4, F.Item5, F.Item1);
                 Nodes.Add(N);
             }
+        }
 
-            //List<int> NodeIndex = new();
-            //foreach (Node n in Nodes)
-            //{
-            //    NodeIndex.Add(n.Index);
-            //}
+        private void AddAdjs(List<(int, int)> adj, List<Node> nodes)
+        {
+            Adjacentes = new();
+            foreach ((int, int) a in adj)
+            {
+                Node? N1 = GetNodeByIndex(a.Item1, nodes);
+                Node? N2 = GetNodeByIndex(a.Item2, nodes);
+                if (N1 is not null && N2 is not null)
+                {
+                    Adj A1 = new(N1, N2);
+                    Adj A2 = new(N2, N1);
+                    if (!Adjacentes.Contains(A1))
+                    {
+                        Adjacentes.Add(A1);
+                    }
+                    if (!Adjacentes.Contains(A2))
+                    {
+                        Adjacentes.Add(A2);
+                    }
+                }
+            }
+        }
 
+        private void AddAdjs(List<(string, string)> adj, List<Node> nodes)
+        {
+            Adjacentes = new();
+            foreach ((string, string) a in adj)
+            {
+                Node? N1 = GetNodeByName(a.Item1, nodes);
+                Node? N2 = GetNodeByName(a.Item2, nodes);
+                if (N1 is not null && N2 is not null)
+                {
+                    Adj A1 = new(N1, N2);
+                    Adj A2 = new(N2, N1);
+                    if (!Adjacentes.Contains(A1))
+                    {
+                        Adjacentes.Add(A1);
+                    }
+                    if (!Adjacentes.Contains(A2))
+                    {
+                        Adjacentes.Add(A2);
+                    }
+                }
+            }
+        }
+
+        private void AddFmus(List<Node> nodes, List<(string, double, double)> areaAge, DataMatrixPar matrixPar)
+        {
             //Setting FMU list
-            IEnumerable<Node> FmuNodes = Nodes.Where(node => node.IsFMU);
+            IEnumerable<Node> FmuNodes = nodes.Where(node => node.IsFMU);
             foreach (Node n in FmuNodes)
             {
-                if (AreaAge.Where(T => T.Item1 == n.NodeName).Any())
+                if (areaAge.Where(T => T.Item1 == n.NodeName).Any())
                 {
-                    (string, double, double) AA = AreaAge.Where(T => T.Item1 == n.NodeName).First();
-                    FMU F = new(AA.Item1, AA.Item2, AA.Item3, n, FMUs.Count);
-                    //Setting if FMU is for First Block
-                    F.IsFirstBlock = MatrixPar.FirstFMUs.Contains(n.Index);
+                    (string, double, double) AA = areaAge.Where(T => T.Item1 == n.NodeName).First();
+                    FMU F = new(AA.Item1, AA.Item2, AA.Item3, n, FMUs.Count)
+                    {
+                        //Setting if FMU is for First Block
+                        IsFirstBlock = matrixPar.FirstFMUs.Contains(n.Index)
+                    };
                     if (FMUs.Contains(F))
                     {
                         throw new Exception("FMU repetido");
@@ -371,58 +463,66 @@ namespace FHModel
                     else
                     {
                         FMUs.Add(F);
-                    }                    
+                    }
                 }
             }
+        }
 
+        private void SetFMUVolume(List<(string, List<double>)> vol, List<FMU> fMUs)
+        {
             //Setting Vol lits
-            foreach ((string, List<double>) v in Vol)
+            foreach ((string, List<double>) v in vol)
             {
-                FMU? F = GetFMUByName(v.Item1, FMUs);
+                FMU? F = GetFMUByName(v.Item1, fMUs);
                 if (F is not null)
                 {
                     F.AddVols(v.Item2.ToArray());
                 }
             }
+        }
 
+        private void SetFMUProfit(List<(string, List<double>)> prf, List<FMU> fmus)
+        {
             //Setting Prf
-            foreach ((string, List<double>) p in Prf)
+            foreach ((string, List<double>) p in prf)
             {
-                FMU? F = GetFMUByName(p.Item1, FMUs);
+                FMU? F = GetFMUByName(p.Item1, fmus);
                 if (F is not null)
                 {
                     F.AddProf(p.Item2.ToArray());
                 }
             }
+        }
 
+        public List<Edge> FillEdges(List<(string, string, double, double, bool)> edg, List<Node> nodes)
+        {
+            List<Edge> Ed = new();
             //Setting Edges List
-            foreach ((string, string, double, double, bool) e in Edg)
+            foreach ((string, string, double, double, bool) e in edg)
             {
-                Node? Start = GetNodeByName(e.Item1, Nodes);
-                Node? End = GetNodeByName(e.Item2, Nodes);
-                if(Start is not null && End is not null)
+                Node? Start = GetNodeByName(e.Item1, nodes);
+                Node? End = GetNodeByName(e.Item2, nodes);
+                if (Start is not null && End is not null)
                 {
-                    //List<double> Demand = new();
-                    //for(int p=0, p< Start.)
                     Edge E0 = new(Start, End, e.Item3, e.Item4, e.Item5);//, Demand);
                     Edge E1 = new(End, Start, e.Item3, e.Item4, e.Item5);//, Demand);
-                    foreach (Edge E in new List<Edge> {E0, E1 })
+                    foreach (Edge E in new List<Edge> { E0, E1 })
                     {
-                        if (Edges.Contains(E))
+                        if (Ed.Contains(E))
                         {
                             throw new Exception($"{E.Name} repetido");
                         }
                         else
                         {
                             E.Index = Edges.Count;
-                            Edges.Add(E);
+                            Ed.Add(E);
                         }
                     }
                 }
                 else
                 {
                     if (Start is null)
-                    {
+                    {   
                         throw new Exception($"Node {e.Item1} nao encontrado");
                     }
                     else
@@ -431,8 +531,30 @@ namespace FHModel
                     }
                 }
             }
+
+            return Ed;
         }
 
+        public Adj? GetAdjNodes(string name1, string name2, List<Node> NodeList)
+        {
+            try
+            {
+                Node? N1 = GetNodeByName(name1, NodeList);
+                Node? N2 = GetNodeByName(name2, NodeList);
+                return new Adj(N1, N2);
+            }
+            catch (ArgumentNullException)
+            {
+                return null;
+            }
+        }
+
+        public (Node?, Node?) GetAdjNodes(int index1, int index2, List<Node> NodeList)
+        {
+            Node? N1 = GetNodeByIndex(index1, NodeList);
+            Node? N2 = GetNodeByIndex(index2, NodeList);
+            return (N1, N2);
+        }
         public Node? GetNodeByName(string name, List<Node> NodeList)
         {
             try
@@ -454,7 +576,7 @@ namespace FHModel
                 return null;
             }
         }
-        public Node? GetNodeByIndex(int Ind, List<Node> NodeList)
+        public Node? GetNodeByIndex(int Ind, List<Node>? NodeList)
         {
             try
             {
@@ -523,7 +645,7 @@ namespace FHModel
             }
 
         }
-        public FMU? GetFMUByIndex(int? Ind, List<FMU> fmus)
+        public FMU? GetFMUByIndex(int? Ind, List<FMU>? fmus)
         {
             try { 
                 var pickN = from fm in fmus
@@ -571,7 +693,7 @@ namespace FHModel
 
         public override string ToString()
         {
-            StringBuilder TS = new StringBuilder();
+            StringBuilder TS = new();
 
             TS.AppendLine($"NameInstance\t{NameInstance}");
             TS.AppendLine($"PathInstance\t{PathInstance}");
@@ -617,10 +739,15 @@ namespace FHModel
             TS.AppendLine("Adjacentes:");
             if (Adjacentes.Count > 0)
             {
-                foreach ((int,int) adj in Adjacentes)
+                foreach (Adj a in Adjacentes)
                 {
-                    TS.AppendLine($"\t\t{adj.Item1}: {Nodes[adj.Item1]}");
-                    TS.AppendLine($"\t\t{adj.Item2}: {Nodes[adj.Item2]}\n");
+                    Node? N1 = a.Node1;
+                    Node? N2 = a.Node2;
+                    if (N1 is not null && N2 is not null)
+                    {
+                        TS.AppendLine($"\t\tN1: {N1}");
+                        TS.AppendLine($"\t\tN2: {N2}\n");
+                    }
                 }
             }
             else
@@ -637,7 +764,7 @@ namespace FHModel
     {
         public string NameInstance;
         public string Agora;
-        public FHStandards Std;
+        public FHStandards? Std;
         public GRBAuxVars Vars;
         public double DeltaDistance;
         public int NumNodes;
@@ -744,7 +871,7 @@ namespace FHModel
                 && Enumerable.Range(0, DMP.Cost_RoadOpening_ByPeriod.Length).Contains(p)
                 && i != j)
             {
-                resp = FMUDistances[i, j] *     DMP.Cost_RoadOpening_ByUnity + DMP.Cost_RoadOpening_ByPeriod[p];
+                resp = FMUDistances[i, j] * DMP.Cost_RoadOpening_ByUnity + DMP.Cost_RoadOpening_ByPeriod[p];
             }
             return resp;
         }
@@ -810,15 +937,10 @@ namespace FHModel
             {
                 foreach (int p in Enumerable.Range(0, NumPeriods))
                 {
-                    List<double> demand = new List<double>();
-                    foreach (FMU Unit in this.Std.FMUs)
-                    {
-                        double a = Unit.Vols.ToArray()[p];
-                        if (a > 0)
-                        {
-                            demand.Add(a);
-                        }                        
-                    }
+                    List<double> demand = (from FMU Unit in Std.FMUs
+                                           let a = Unit.Vols.ToArray()[p]
+                                           where a > 0
+                                           select a).ToList();
                     SortimentDemands[s, p] = demand.Sum()>0? DemandFactor * demand.Average() : 0; // DemandFactor
                 }
             }
@@ -829,7 +951,7 @@ namespace FHModel
 
         public override string ToString()
         {
-            StringBuilder TS = new StringBuilder();
+            StringBuilder TS = new();
             TS.AppendLine($"NameInstance\t{NameInstance}");
             TS.AppendLine($"Agora\t{Agora}");
             TS.AppendLine($"------\nStd:\n{Std.ToString()}\n------");
@@ -885,5 +1007,7 @@ namespace FHModel
         {
             ToolBox.FileTxt($"{NameInstance}_SaveInstance.txt", this.ToString(), false);
         }
+#pragma warning restore CA1822 // Marcar membros como estáticos
+#pragma warning restore CS8602
     }
 }

@@ -51,14 +51,14 @@ namespace FHModel
             };
         }
 
-        public static void ifMess(bool ShowMessage, string Message)
+        public static void IfMess(bool ShowMessage, string Message)
         {
             if (ShowMessage)
             {
                 MessageBox.Show(Message);
             }
         }
-        public static void ifMess(bool ShowMessage, string Message, string Title)
+        public static void IfMess(bool ShowMessage, string Message, string Title)
         {
             if (ShowMessage)
             {
@@ -66,7 +66,7 @@ namespace FHModel
             }
         }
 
-        public static void ifMess(bool ShowMessage, string Message, string Title, MessageBoxButtons Button)
+        public static void IfMess(bool ShowMessage, string Message, string Title, MessageBoxButtons Button)
         {
             if (ShowMessage)
             {
@@ -74,7 +74,7 @@ namespace FHModel
             }
         }
 
-        public static void ifMess(bool ShowMessage, string Message, string Title, MessageBoxButtons Button, MessageBoxIcon Icon)
+        public static void IfMess(bool ShowMessage, string Message, string Title, MessageBoxButtons Button, MessageBoxIcon Icon)
         {
             if (ShowMessage)
             {
@@ -82,6 +82,51 @@ namespace FHModel
             }
         }
 
+        public static bool IfNull(object? t)
+        {
+            return t is null;
+        }
+
+        public static bool IfNotNull(object? t)
+        {
+            return t is not null;
+        }
+        
+        public static object? CondtionalNull(object? t, object NotNullAns)
+        {
+            object? resp = t is not null ? NotNullAns : null;
+            return resp;
+        }
+
+        public static object CondtionalNull(object? t, object NotNullAns, object NullAns)
+        {
+            object resp = t is not null ? NotNullAns : NullAns;
+            return resp;
+        }
+
+        public static string? CondtionalNull(object? t, string? NotNullAns)
+        {
+            string? resp = t is not null ? NotNullAns : null;
+            return resp;
+        }
+
+        public static string CondtionalNull(object? t, string NotNullAns, string NullAns)
+        {
+            string resp = t is not null ? NotNullAns : NullAns;
+            return resp;
+        }
+
+        public static GRBVar? CondtionalNull(object? t, GRBVar NotNullAns)
+        {
+            GRBVar? resp = t is not null ? NotNullAns : null;
+            return resp;
+        }
+
+        public static GRBVar CondtionalNull(object? t, GRBVar NotNullAns, GRBVar NullAns)
+        {
+            GRBVar resp = t is not null ? NotNullAns : NullAns;
+            return resp;
+        }
 
         public static void AddL<T>(List<T> L, T t)
         {
@@ -130,8 +175,8 @@ namespace FHModel
         }
         public static List<Color> CriarCoresAleatoriasParaPontos(int numpontos = 1)
         {
-            List<Color> CoresPontos = new List<Color>();
-            Random Aleatorio = new Random(1);
+            List<Color> CoresPontos = new();
+            Random Aleatorio = new(1);
             for (int j = 0; j < numpontos; j++)
             {
                 int A = Aleatorio.Next(100, 181);
@@ -144,11 +189,11 @@ namespace FHModel
         }
         public static List<List<double>> CriarListaDePontos(int numPontos, int dimensao, double lb, double ub, int randomseed = 0)
         {
-            Random Aleatorio = new Random(randomseed);
-            List<List<double>> Pontos = new List<List<double>>();
+            Random Aleatorio = new(randomseed);
+            List<List<double>> Pontos = new();
             for (int i = 0; i < numPontos; i++)
             {
-                List<double> Ponto = new List<double>();
+                List<double> Ponto = new();
                 for (int j = 0; j < dimensao; j++)
                 {
                     double coord = lb + (ub - lb) * Aleatorio.NextDouble();
@@ -161,8 +206,8 @@ namespace FHModel
         }
         public static List<(double, double)> CriarListaDePontos(int numPontos, double lbx, double ubx, double lby, double uby, int randomseed = 0)
         {
-            Random Aleatorio = new Random(randomseed);
-            List<(double, double)> Pontos = new List<(double, double)>();
+            Random Aleatorio = new(randomseed);
+            List<(double, double)> Pontos = new();
             //double xmax = 0;
             //double ymax = 0;
             //double xmin = 0;
@@ -194,8 +239,8 @@ namespace FHModel
         }
         public static (List<(double, double)>, List<int>) CriarPontosPoligonoRegular(int numPontos, double radius = 250, double Xcenter = 250, double Ycenter = 250)
         {
-            List<(double, double)> Pontos = new List<(double, double)>();
-            List<int> LIndex = new List<int>();
+            List<(double, double)> Pontos = new();
+            List<int> LIndex = new();
             for (int i = 0; i < numPontos; i++)
             {
                 double alpha = i * 2 * Math.PI / numPontos;
@@ -209,14 +254,14 @@ namespace FHModel
         }
         public static List<List<double>> CriarListaDePontosCirc(int numPontos, double lb, double ub)
         {
-            List<List<double>> pts = new List<List<double>>();
+            List<List<double>> pts = new();
             double XCent = lb + (ub - lb) / 2;
             double YCent = lb + (ub - lb) / 2;
             double gdeRaio = (ub - lb) / 2;
 
             for (int i = 0; i < numPontos; i++)
             {
-                List<double> Ponto = new List<double>();
+                List<double> Ponto = new();
                 double alpha = i * 2 * Math.PI / numPontos;
                 double pX = -Math.Cos(alpha) * gdeRaio + XCent;
                 Ponto.Add(pX);
@@ -228,13 +273,13 @@ namespace FHModel
         }
         public static List<List<double>> CriarListaDePontosRect(int numPontos, double Xmin, double Ymin, double width, double height)
         {
-            List<List<double>> pts = new List<List<double>>();
+            List<List<double>> pts = new();
             double perimeter = 2 * (width + height);
             double part = perimeter / numPontos;
 
             for (int i = 0; i < numPontos; i++)
             {
-                List<double> Ponto = new List<double>();
+                List<double> Ponto = new();
                 double lenpart = i * part;
 
                 if (lenpart < width)
@@ -278,7 +323,7 @@ namespace FHModel
             }
             catch (GRBException E)
             {
-                StringBuilder msg = new StringBuilder();
+                StringBuilder msg = new();
                 msg.Append(Nome + " gerou erro Gurobi: \n" + E.Message);
                 if (ShowMess)
                 {
@@ -299,7 +344,7 @@ namespace FHModel
         }
         public static void GravaModelo(string tipo, string path, string[] OtherParameters, GRBModel Model, bool ShowMess)
         {
-            StringBuilder NomeBase = new StringBuilder();
+            StringBuilder NomeBase = new();
             NomeBase.Append(tipo);
             foreach (string str in OtherParameters)
             {
@@ -386,13 +431,13 @@ namespace FHModel
         }
         public static void FileTxt(string Nome, string strcontent, bool ShowMess)
         {
-            StringBuilder content = new StringBuilder();
+            StringBuilder content = new();
             content.AppendLine(strcontent);
             FileTxt(Nome, content, ShowMess);
         }
         public static void FileTxt(string Nome, string[] strcontent, bool ShowMess)
         {
-            StringBuilder content = new StringBuilder();
+            StringBuilder content = new();
             foreach (string s in strcontent)
             {
                 content.AppendLine(s);
@@ -401,7 +446,7 @@ namespace FHModel
         }
         public static void FileTxt(string Nome, List<string> listcontent, bool ShowMess)
         {
-            StringBuilder text = new StringBuilder();
+            StringBuilder text = new();
             foreach (string s in listcontent)
             {
                 text.AppendLine(s);
@@ -413,7 +458,7 @@ namespace FHModel
         {
             Nome = TestPath(Nome);
 
-            using (StreamWriter writer = new StreamWriter(Nome))
+            using (StreamWriter writer = new(Nome))
             {
                 writer.WriteLine(content.ToString());
             }
@@ -437,7 +482,7 @@ namespace FHModel
         {
             string Nome = path + problem + Agora + ord.ToString() + ".txt";
 
-            using (StreamWriter writer = new StreamWriter(Nome))
+            using (StreamWriter writer = new(Nome))
             {
                 writer.WriteLine(text.ToString());
             }
@@ -448,7 +493,7 @@ namespace FHModel
         }
         public static void GravaMsgTxt(string path, string[] OtherParameters, StringBuilder text, bool ShowMess)
         {
-            StringBuilder sbAux = new StringBuilder();
+            StringBuilder sbAux = new();
             sbAux.Append(path);
             foreach (string str in OtherParameters)
             {
@@ -458,7 +503,7 @@ namespace FHModel
 
             string Nome = sbAux.ToString();
 
-            using (StreamWriter writer = new StreamWriter(Nome))
+            using (StreamWriter writer = new(Nome))
             {
                 writer.WriteLine(text.ToString());
             }
@@ -474,15 +519,13 @@ namespace FHModel
 
             if (AllDatFile.Length > 0)
             {
-                using (StreamWriter writer = new StreamWriter(Nome))
+                using StreamWriter writer = new(Nome);
+                writer.WriteLine(AllDatFile[0]);
+                for (int i = 1; i < AllDatFile.Length; i++)
                 {
-                    writer.WriteLine(AllDatFile[0]);
-                    for (int i = 1; i < AllDatFile.Length; i++)
+                    if (AllDatFile[i].IndexOf(" 0") != AllDatFile[i].Length - 2)
                     {
-                        if (AllDatFile[i].IndexOf(" 0") != AllDatFile[i].Length - 2)
-                        {
-                            writer.WriteLine(AllDatFile[i].Replace(' ', '\t'));
-                        }
+                        writer.WriteLine(AllDatFile[i].Replace(' ', '\t'));
                     }
                 }
             }
@@ -511,7 +554,7 @@ namespace FHModel
                                                 int lat2G, int lat2M, double lat2S, string lat2Q,
                                                 int lon2G, int lon2M, double lon2S, string lon2Q, bool ShowMess)
         {
-            Dictionary<string, List<string>> Quadrantes = new Dictionary<string, List<string>>
+            Dictionary<string, List<string>> Quadrantes = new()
             {
                 ["lat"] = new List<string>(),
                 ["lon"] = new List<string>()
@@ -523,8 +566,8 @@ namespace FHModel
             Quadrantes["lon"].Add("L");
             Quadrantes["lon"].Add("O");
 
-            List<string> VarQuadLat = new List<string>();
-            List<string> VarQuadLon = new List<string>();
+            List<string> VarQuadLat = new();
+            List<string> VarQuadLon = new();
             VarQuadLat.Add(lat1Q);
             VarQuadLat.Add(lat2Q);
             VarQuadLon.Add(lon1Q);
@@ -702,7 +745,7 @@ namespace FHModel
                     }
                     break;
             }
-            Tuple<bool, string, string> resp = new Tuple<bool, string, string>(segue, msg, msgtit);
+            Tuple<bool, string, string> resp = new(segue, msg, msgtit);
             return resp;
         }
         public static List<T> Join<T>(this List<T> first, List<T> second)
@@ -720,7 +763,7 @@ namespace FHModel
         }
         public static string TupleToString(Tuple<string, object> Tup)
         {
-            StringBuilder final = new StringBuilder();
+            StringBuilder final = new();
             final.Append(Tup.Item1);
             final.Append(":\t");
             final.AppendLine(Tup.Item2.ToString());
@@ -729,7 +772,7 @@ namespace FHModel
         }
         public static string LabelValueToString(List<Tuple<string, object>> Tuples)
         {
-            StringBuilder final = new StringBuilder();
+            StringBuilder final = new();
             foreach (Tuple<string, object> T in Tuples)
             {
                 final.Append(TupleToString(T));
@@ -738,12 +781,12 @@ namespace FHModel
         }
         public static string LabelValueToString(List<Tuple<string, char[]>> Tuples)
         {
-            StringBuilder final = new StringBuilder();
+            StringBuilder final = new();
             foreach (Tuple<string, char[]> Tup in Tuples)
             {
                 final.Append(Tup.Item1);
                 final.Append(":\t");
-                StringBuilder NewT2 = new StringBuilder();
+                StringBuilder NewT2 = new();
                 foreach (char c in Tup.Item2)
                 {
                     NewT2.Append(c);
@@ -754,127 +797,127 @@ namespace FHModel
         }
         public static string LabelValueToString(List<Tuple<string, ulong>> Tuples)
         {
-            StringBuilder final = new StringBuilder();
+            StringBuilder final = new();
             foreach (Tuple<string, ulong> Tup in Tuples)
             {
-                Tuple<string, object> NewTup = new Tuple<string, object>(Tup.Item1, Tup.Item2.ToString());
+                Tuple<string, object> NewTup = new(Tup.Item1, Tup.Item2.ToString());
                 final.Append(TupleToString(NewTup));
             }
             return final.ToString();
         }
         public static string LabelValueToString(List<Tuple<string, uint>> Tuples)
         {
-            StringBuilder final = new StringBuilder();
+            StringBuilder final = new();
             foreach (Tuple<string, uint> Tup in Tuples)
             {
-                Tuple<string, object> NewTup = new Tuple<string, object>(Tup.Item1, Tup.Item2.ToString());
+                Tuple<string, object> NewTup = new(Tup.Item1, Tup.Item2.ToString());
                 final.Append(TupleToString(NewTup));
             }
             return final.ToString();
         }
         public static string LabelValueToString(List<Tuple<string, ushort>> Tuples)
         {
-            StringBuilder final = new StringBuilder();
+            StringBuilder final = new();
             foreach (Tuple<string, ushort> Tup in Tuples)
             {
-                Tuple<string, object> NewTup = new Tuple<string, object>(Tup.Item1, Tup.Item2.ToString());
+                Tuple<string, object> NewTup = new(Tup.Item1, Tup.Item2.ToString());
                 final.Append(TupleToString(NewTup));
             }
             return final.ToString();
         }
         public static string LabelValueToString(List<Tuple<string, decimal>> Tuples)
         {
-            StringBuilder final = new StringBuilder();
+            StringBuilder final = new();
             foreach (Tuple<string, decimal> Tup in Tuples)
             {
-                Tuple<string, object> NewTup = new Tuple<string, object>(Tup.Item1, Tup.Item2.ToString());
+                Tuple<string, object> NewTup = new(Tup.Item1, Tup.Item2.ToString());
                 final.Append(TupleToString(NewTup));
             }
             return final.ToString();
         }
         public static string LabelValueToString(List<Tuple<string, double>> Tuples)
         {
-            StringBuilder final = new StringBuilder();
+            StringBuilder final = new();
             foreach (Tuple<string, double> Tup in Tuples)
             {
-                Tuple<string, object> NewTup = new Tuple<string, object>(Tup.Item1, Tup.Item2.ToString());
+                Tuple<string, object> NewTup = new(Tup.Item1, Tup.Item2.ToString());
                 final.Append(TupleToString(NewTup));
             }
             return final.ToString();
         }
         public static string LabelValueToString(List<Tuple<string, float>> Tuples)
         {
-            StringBuilder final = new StringBuilder();
+            StringBuilder final = new();
             foreach (Tuple<string, float> Tup in Tuples)
             {
-                Tuple<string, object> NewTup = new Tuple<string, object>(Tup.Item1, Tup.Item2.ToString());
+                Tuple<string, object> NewTup = new(Tup.Item1, Tup.Item2.ToString());
                 final.Append(TupleToString(NewTup));
             }
             return final.ToString();
         }
         public static string LabelValueToString(List<Tuple<string, int>> Tuples)
         {
-            StringBuilder final = new StringBuilder();
+            StringBuilder final = new();
             foreach (Tuple<string, int> Tup in Tuples)
             {
-                Tuple<string, object> NewTup = new Tuple<string, object>(Tup.Item1, Tup.Item2.ToString());
+                Tuple<string, object> NewTup = new(Tup.Item1, Tup.Item2.ToString());
                 final.Append(TupleToString(NewTup));
             }
             return final.ToString();
         }
         public static string LabelValueToString(List<Tuple<string, short>> Tuples)
         {
-            StringBuilder final = new StringBuilder();
+            StringBuilder final = new();
             foreach (Tuple<string, short> Tup in Tuples)
             {
-                Tuple<string, object> NewTup = new Tuple<string, object>(Tup.Item1, Tup.Item2.ToString());
+                Tuple<string, object> NewTup = new(Tup.Item1, Tup.Item2.ToString());
                 final.Append(TupleToString(NewTup));
             }
             return final.ToString();
         }
         public static string LabelValueToString(List<Tuple<string, char>> Tuples)
         {
-            StringBuilder final = new StringBuilder();
+            StringBuilder final = new();
             foreach (Tuple<string, char> Tup in Tuples)
             {
-                Tuple<string, object> NewTup = new Tuple<string, object>(Tup.Item1, Tup.Item2.ToString());
+                Tuple<string, object> NewTup = new(Tup.Item1, Tup.Item2.ToString());
                 final.Append(TupleToString(NewTup));
             }
             return final.ToString();
         }
         public static string LabelValueToString(List<Tuple<string, long>> Tuples)
         {
-            StringBuilder final = new StringBuilder();
+            StringBuilder final = new();
             foreach (Tuple<string, long> Tup in Tuples)
             {
-                Tuple<string, object> NewTup = new Tuple<string, object>(Tup.Item1, Tup.Item2.ToString());
+                Tuple<string, object> NewTup = new(Tup.Item1, Tup.Item2.ToString());
                 final.Append(TupleToString(NewTup));
             }
             return final.ToString();
         }
         public static string LabelValueToString(List<Tuple<string, sbyte>> Tuples)
         {
-            StringBuilder final = new StringBuilder();
+            StringBuilder final = new();
             foreach (Tuple<string, sbyte> Tup in Tuples)
             {
-                Tuple<string, object> NewTup = new Tuple<string, object>(Tup.Item1, Tup.Item2.ToString());
+                Tuple<string, object> NewTup = new(Tup.Item1, Tup.Item2.ToString());
                 final.Append(TupleToString(NewTup));
             }
             return final.ToString();
         }
         public static string LabelValueToString(List<Tuple<string, bool>> Tuples)
         {
-            StringBuilder final = new StringBuilder();
+            StringBuilder final = new();
             foreach (Tuple<string, bool> Tup in Tuples)
             {
-                Tuple<string, object> NewTup = new Tuple<string, object>(Tup.Item1, Tup.Item2.ToString());
+                Tuple<string, object> NewTup = new(Tup.Item1, Tup.Item2.ToString());
                 final.Append(TupleToString(NewTup));
             }
             return final.ToString();
         }
         public static string ConstraintName(string label, List<(string, int)> indexes)
         {
-            StringBuilder ConstName = new StringBuilder();
+            StringBuilder ConstName = new();
             ConstName.Append(label);
             foreach ((string, int) C in indexes)
             {
@@ -890,7 +933,7 @@ namespace FHModel
         }
         public static string ConstraintName(string label, (string, int) indexes)
         {
-            StringBuilder ConstName = new StringBuilder();
+            StringBuilder ConstName = new();
             ConstName.Append(label);
             ConstName.Append('_');
             ConstName.Append(indexes.Item1);
@@ -948,18 +991,18 @@ namespace FHModel
         }
         public static string GroupingListIntToString(List<int> ListObj)
         {
-            StringBuilder StringList = new StringBuilder();
-            StringList.Append("(");
+            StringBuilder StringList = new();
+            StringList.Append('(');
             foreach (int L in ListObj)
             {
-                StringList.Append(L.ToString());
+                StringList.Append(L);
                 if (!(L == ListObj.Last()))
                 {
                     StringList.Append(',');
                 }
                 else
                 {
-                    StringList.Append(")");
+                    StringList.Append(')');
                 }
             }
             return StringList.ToString();
@@ -989,7 +1032,7 @@ namespace FHModel
             //Gera data e hora atual para o nome do arquivo
             DateTime localDate = DateTime.Now;
             var cultureName = "en-US";
-            CultureInfo culture = new CultureInfo(cultureName);
+            CultureInfo culture = new(cultureName);
             return localDate.ToString(culture).Replace("/", "_").Replace(" ", "_").Replace(":", "-");
         }
         public static string AddLogLine(string val)
@@ -1020,14 +1063,14 @@ namespace FHModel
         }
         public static string WriteTable(double[,] table)
         {
-            StringBuilder rows = new StringBuilder();
+            StringBuilder rows = new();
             rows.Append('\n');
             for (int r = 0; r < table.GetLength(0); r++)
             {
-                StringBuilder cols = new StringBuilder();
+                StringBuilder cols = new();
                 for (int c = 0; c < table.GetLength(1); c++)
                 {
-                    cols.Append(table[r, c].ToString());
+                    cols.Append(table[r, c]);
                     if (c + 1 < table.GetLength(1))
                     {
                         cols.Append('\t');
@@ -1039,7 +1082,7 @@ namespace FHModel
         }
         public static string WriteTable(double[,,] table)
         {
-            StringBuilder rows = new StringBuilder();
+            StringBuilder rows = new();
             rows.Append('\n');
             for (int r = 0; r < table.GetLength(0); r++)
             {
@@ -1058,13 +1101,13 @@ namespace FHModel
         }
         public static string WriteTable(decimal[,] table)
         {
-            StringBuilder rows = new StringBuilder();
+            StringBuilder rows = new();
             for (int r = 0; r < table.GetLength(0); r++)
             {
-                StringBuilder cols = new StringBuilder();
+                StringBuilder cols = new();
                 for (int c = 0; c < table.GetLength(1); c++)
                 {
-                    cols.Append(table[r, c].ToString());
+                    cols.Append(table[r, c]);
                     if (c + 1 < table.GetLength(1))
                     {
                         cols.Append('\t');
@@ -1076,13 +1119,13 @@ namespace FHModel
         }
         public static string WriteTable(bool[,] table)
         {
-            StringBuilder rows = new StringBuilder();
+            StringBuilder rows = new();
             for (int r = 0; r < table.GetLength(0); r++)
             {
-                StringBuilder cols = new StringBuilder();
+                StringBuilder cols = new();
                 for (int c = 0; c < table.GetLength(1); c++)
                 {
-                    cols.Append(table[r, c].ToString());
+                    cols.Append(table[r, c]);
                     if (c + 1 < table.GetLength(1))
                     {
                         cols.Append('\t');
@@ -1094,13 +1137,13 @@ namespace FHModel
         }
         public static string WriteTable(int[,] table)
         {
-            StringBuilder rows = new StringBuilder();
+            StringBuilder rows = new();
             for (int r = 0; r < table.GetLength(0); r++)
             {
-                StringBuilder cols = new StringBuilder();
+                StringBuilder cols = new();
                 for (int c = 0; c < table.GetLength(1); c++)
                 {
-                    cols.Append(table[r, c].ToString());
+                    cols.Append(table[r, c]);
                     if (c + 1 < table.GetLength(1))
                     {
                         cols.Append('\t');
@@ -1252,7 +1295,7 @@ namespace FHModel
                 a.Item2 = (newMax.Item2 - newMin.Item2) / (maxatual.Item2 - minatual.Item2);
                 b.Item2 = newMax.Item2 - a.Item2 * maxatual.Item2;
             }
-            List<(double, double)> resp = new List<(double, double)>();
+            List<(double, double)> resp = new();
             foreach ((double, double) pt in pts)
             {
                 resp.Add((a.Item1 * pt.Item1 + b.Item1, a.Item2 * pt.Item2 + b.Item2));
@@ -1261,20 +1304,20 @@ namespace FHModel
         }
         public static Bitmap DrawSquareGuide((double, double) mins, (double, double) maxs, int width = 500, int height = 500, int R = 0, int G = 0, int B = 0)
         {
-            List<(double, double)> pts_orig = new List<(double, double)> { mins, maxs };
+            List<(double, double)> pts_orig = new() { mins, maxs };
             List<(double, double)> pts_norm = NormalizePoints(pts_orig, (width - 25, height - 25), (25, 25));
 
             Color ColorLine = Color.FromArgb(R, G, B);
-            Bitmap Desenho = new Bitmap(width, height);
+            Bitmap Desenho = new(width, height);
             Graphics g = Graphics.FromImage(Desenho);
             g.FillRectangle(Brushes.Transparent, 0, 0, width, height);
-            SolidBrush drawLineBrush = new SolidBrush(ColorLine); //Pincel de Desenho
-            Pen drawPen = new Pen(drawLineBrush); //Caneta para desenhar linha
+            SolidBrush drawLineBrush = new(ColorLine); //Pincel de Desenho
+            Pen drawPen = new(drawLineBrush); //Caneta para desenhar linha
             _ = new StringFormat(StringFormatFlags.NoClip)
             {
                 Alignment = StringAlignment.Center //Uso o formato para alinhar txt no centro
             }; //Formato de String
-            List<(double, double, double, double)> retas = new List<(double, double, double, double)>
+            List<(double, double, double, double)> retas = new()
             {
                 (0, pts_norm[0].Item2, width, pts_norm[0].Item2),
                 (0, pts_norm[1].Item2, width, pts_norm[1].Item2),
@@ -1289,8 +1332,8 @@ namespace FHModel
                 float X2 = Convert.ToSingle(coord.Item3);
                 float Y2 = Convert.ToSingle(coord.Item4);
 
-                PointF P1 = new PointF(X1, Y1);
-                PointF P2 = new PointF(X2, Y2);
+                PointF P1 = new(X1, Y1);
+                PointF P2 = new(X2, Y2);
                 g.DrawLine(drawPen, P1, P2);
             }
             return Desenho;
@@ -1306,16 +1349,16 @@ namespace FHModel
                 }
             }
             Color ColorLine = Color.FromArgb(R, G, B);
-            Bitmap Desenho = new Bitmap(width, height);
+            Bitmap Desenho = new(width, height);
             Graphics g = Graphics.FromImage(Desenho);
             if (!transparent)
             {
                 g.FillRectangle(Brushes.White, 0, 0, width, height);
             }
-            Font drawFont = new Font("Arial", fontsize); //Escrita de texto no Desenho
-            SolidBrush drawBrush = new SolidBrush(Color.Black); //Pincel de Desenho
-            SolidBrush drawLineBrush = new SolidBrush(ColorLine); //Pincel de Desenho
-            Pen drawPen = new Pen(drawLineBrush); //Caneta para desenhar linha
+            Font drawFont = new("Arial", fontsize); //Escrita de texto no Desenho
+            SolidBrush drawBrush = new(Color.Black); //Pincel de Desenho
+            SolidBrush drawLineBrush = new(ColorLine); //Pincel de Desenho
+            Pen drawPen = new(drawLineBrush); //Caneta para desenhar linha
             _ = new StringFormat(StringFormatFlags.NoClip)
             {
                 Alignment = StringAlignment.Center //Uso o formato para alinhar txt no centro
@@ -1328,12 +1371,12 @@ namespace FHModel
             {
                 float X = Convert.ToSingle(pts[i].Item1) - PointRadius;
                 float Y = Convert.ToSingle(pts[i].Item2) - PointRadius;
-                PointF Top = new PointF(X, Y);
-                SizeF Tam = new SizeF(2 * PointRadius, 2 * PointRadius);
-                RectangleF Rec = new RectangleF(Top, Tam);
+                PointF Top = new(X, Y);
+                SizeF Tam = new(2 * PointRadius, 2 * PointRadius);
+                RectangleF Rec = new(Top, Tam);
                 g.DrawEllipse(drawPen, Rec);
 
-                PointF Cnt = new PointF(X + PointRadius, Y + PointRadius);
+                PointF Cnt = new(X + PointRadius, Y + PointRadius);
                 g.DrawString(inds[i].ToString(), drawFont, drawBrush, Cnt);
 
                 if (drawlines)
@@ -1351,9 +1394,9 @@ namespace FHModel
                     float X2 = Convert.ToSingle(pts[j].Item1);
                     float Y2 = Convert.ToSingle(pts[j].Item2);
 
-                    PointF P1 = new PointF(X1, Y1);
-                    PointF P2 = new PointF(X2, Y2);
-                    PointF PMed = new PointF((X1 + X2) * 50 / 100, (Y1 + Y2) * 50 / 100);
+                    PointF P1 = new(X1, Y1);
+                    PointF P2 = new(X2, Y2);
+                    PointF PMed = new((X1 + X2) * 50 / 100, (Y1 + Y2) * 50 / 100);
 
                     g.DrawLine(drawPen, P1, P2);
                     g.DrawString(inds[i].ToString() + "->" + inds[j].ToString(), drawFont, drawLineBrush, PMed);
@@ -1365,7 +1408,7 @@ namespace FHModel
         public static Bitmap Draw2points(int qtdPts, bool random = true, int randomseed = 0)
         {
             List<(double, double)> pts;
-            List<int> ind = new List<int>();
+            List<int> ind = new();
             double XCent = 250;
             double YCent = 250;
             double gdeRaio = 250;
@@ -1388,7 +1431,7 @@ namespace FHModel
         public static void Substring_lps(string filePL, string fileMST, bool ShowMess)
         {
             string[] FileMSTdata = File.ReadAllLines(fileMST);
-            List<(string, string)> MSTData = new List<(string, string)>();
+            List<(string, string)> MSTData = new();
             for (int i = 1; i < FileMSTdata.Length; i++)
             {
                 (string, string) newtuple = (FileMSTdata[i].Split(' ')[0], "* " + FileMSTdata[i].Split(' ')[1]);
@@ -1409,7 +1452,7 @@ namespace FHModel
             string NewName = filePL.Replace(".lp", "recalc(" + GetNow() + ").tsv");
             string val;
             Console.WriteLine(NewName);
-            using (StreamWriter writer = new StreamWriter(NewName))
+            using (StreamWriter writer = new(NewName))
             {
                 for (int i = 0; i < FilePLdata.Length; i++)
                 {

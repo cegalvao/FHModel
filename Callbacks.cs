@@ -92,7 +92,7 @@ namespace FHModel
                 else if (where == GRB.Callback.PRESOLVE)
                 {
                     string str_calllog = $"{RI.Std.PathInstance}_{RI.Std.NameInstance}_{ToolBox.GetNow()}_Presolve_call.log";
-                    //ToolBox.ifMess(MP.ShowMessages, str_calllog);
+                    //ToolBox.IfMess(MP.ShowMessages, str_calllog);
                     StringBuilder calllog = new();
 
                     // Presolve callback
@@ -114,7 +114,7 @@ namespace FHModel
                 else if (where == GRB.Callback.SIMPLEX)
                 {
                     string str_calllog = $"{RI.Std.PathInstance}_{RI.Std.NameInstance}_{ToolBox.GetNow()}_SIMPLEX_call.log";
-                    //ToolBox.ifMess(MP.ShowMessages, str_calllog);
+                    //ToolBox.IfMess(MP.ShowMessages, str_calllog);
                     StringBuilder calllog = new();
 
                     // Simplex callback
@@ -143,7 +143,7 @@ namespace FHModel
                 else if (where == GRB.Callback.MIP)
                 {
                     string str_calllog = $"{RI.Std.PathInstance}_{RI.Std.NameInstance}_{ToolBox.GetNow()}_MIP_call.log";
-                    //ToolBox.ifMess(MP.ShowMessages, str_calllog);
+                    //ToolBox.IfMess(MP.ShowMessages, str_calllog);
                     StringBuilder calllog = new();
                     // General MIP callback
                     double nodecnt = GetDoubleInfo(GRB.Callback.MIP_NODCNT);
@@ -168,7 +168,7 @@ namespace FHModel
                         Console.WriteLine(msg);
                         calllog.AppendLine(msg);
                         logfile.Close();
-                        ToolBox.ifMess(false, msg);
+                        ToolBox.IfMess(false, msg);
                         if (calllog.Length > 0)
                         {
                             ToolBox.FileTxt(str_calllog, calllog, false);
@@ -183,7 +183,7 @@ namespace FHModel
                         Console.WriteLine(msg);
                         calllog.AppendLine(msg);
                         logfile.Close();
-                        ToolBox.ifMess(false, msg);
+                        ToolBox.IfMess(false, msg);
                         if (calllog.Length > 0)
                         {
                             ToolBox.FileTxt(str_calllog, calllog, false);
@@ -202,7 +202,7 @@ namespace FHModel
                 else if (where == GRB.Callback.MIPSOL)
                 {
                     string str_calllog = $"{RI.Std.PathInstance}_{RI.Std.NameInstance}_{ToolBox.GetNow()}_MIPSOL_call.log";
-                    //ToolBox.ifMess(MP.ShowMessages, str_calllog);
+                    //ToolBox.IfMess(MP.ShowMessages, str_calllog);
                     StringBuilder calllog = new();
                     // MIP solution callback
                     vars.FillAux();//Criação da lista de variáveis auxiliares no MIPSOL
@@ -238,7 +238,7 @@ namespace FHModel
                             + $", obj {obj}, sol {solcnt}"
                             + $", x[0] = {x[0]} ****\n";
                         Console.WriteLine(msg);
-                        //ToolBox.ifMess(true, mess);
+                        //ToolBox.IfMess(true, mess);
                         if (msg != null) logfile.Write(msg);
                     }
                     else
@@ -247,7 +247,7 @@ namespace FHModel
                             + $", obj {obj}, sol {solcnt}"
                             + ", x[0] = NULL  ****\n";
                         Console.WriteLine(msg);
-                        //ToolBox.ifMess(true, mess);
+                        //ToolBox.IfMess(true, mess);
                         if (msg != null) logfile.Write(msg);
                     }
                 }
@@ -282,7 +282,7 @@ namespace FHModel
                     // Message callback
                     string msg = GetStringInfo(GRB.Callback.MSG_STRING);
                     if (msg != null) logfile.Write(msg);
-                    //ToolBox.ifMess(msg != null, msg);
+                    //ToolBox.IfMess(msg != null, msg);
                 }
 
             }
@@ -303,7 +303,7 @@ namespace FHModel
         public List<LazyType> ChoiceLazy(GRBAuxVars xvars, int LenghtRandom)
         {
 
-            List<LazyType> lazysAll = new List<LazyType>();
+            List<LazyType> lazysAll = new();
             lazysAll.AddRange(Lazy_M_Flow_List(xvars));
             //if (lazysAll.Count == 0)
             //{
@@ -339,15 +339,15 @@ namespace FHModel
             //}
 
             int limitlist = lazysAll.Count < LenghtRandom ? lazysAll.Count : LenghtRandom;
-            List<string> lazynames = new List<string>();
+            List<string> lazynames = new();
 
             foreach(LazyType l in lazysAll)
             {
                 lazynames.Add(l.ToString());
             }
 
-            List<LazyType> lazys = new List<LazyType>();
-            Random random = new Random(0);
+            List<LazyType> lazys = new();
+            Random random = new(0);
             for (int i = 0; i < limitlist; i++)
             {
                 lazys.Add(lazysAll[random.Next(lazysAll.Count)]);
@@ -364,8 +364,8 @@ namespace FHModel
             bool ok;
             string name = ToolBox.ConstraintName("R" + NameConstraints[5],
                             new List<(string, int)> { ("I", i), ("P", p) });
-            StringBuilder desc = new StringBuilder();
-            GRBLinExpr linExpr = new GRBLinExpr();
+            StringBuilder desc = new();
+            GRBLinExpr linExpr = new();
 
             double NumTravels = 0.0;
             FMU? F = RI.Std.GetFMUByNodeIndex(i, RI.Std.FMUs);
@@ -412,8 +412,8 @@ namespace FHModel
             bool ok;
             string name = ToolBox.ConstraintName("R" + NameConstraints[7],
                             new List<(string, int)> { ("I", i) });
-            StringBuilder desc = new StringBuilder();
-            GRBLinExpr linExpr = new GRBLinExpr();
+            StringBuilder desc = new();
+            GRBLinExpr linExpr = new();
             double FinalVal = 0.0;
 
             double[,] Xp = V.GetVSolByGroup("Xib")[0]; //
@@ -435,8 +435,8 @@ namespace FHModel
             bool ok;
             string name = ToolBox.ConstraintName("R" + NameConstraints[10],
                             new List<(string, int)> { ("S", s), ("P", p) });
-            StringBuilder desc = new StringBuilder();
-            GRBLinExpr linExpr = new GRBLinExpr();
+            StringBuilder desc = new();
+            GRBLinExpr linExpr = new();
             double FinalVal = 0.0;
 
             double[,] Xib = V.GetVSolByGroup("Xib")[p]; //
@@ -447,10 +447,13 @@ namespace FHModel
                 {
                     if (RI.Std.Nodes[i].IsFMU)
                     {
-                        FMU Unit = RI.Std.GetFMUByIndex(i, RI.Std.FMUs);
-                        linExpr.AddTerm(Unit.Vols[p], V.X[i, p, b]);
-                        desc.AppendLine($" + {Unit.Vols[p]} {V.X[i, p, b].VarName} ({Xib[i, b]})");
-                        FinalVal += Unit.Vols[p] * Xib[i, b];
+                        FMU? Unit = RI.Std.GetFMUByIndex(i, RI.Std.FMUs);
+                        if (ToolBox.IfNotNull(Unit))
+                        {
+                            linExpr.AddTerm(Unit.Vols[p], V.X[i, p, b]);
+                            desc.AppendLine($" + {Unit.Vols[p]} {V.X[i, p, b].VarName} ({Xib[i, b]})");
+                            FinalVal += Unit.Vols[p] * Xib[i, b];
+                        }
                     }
                 }
             }
@@ -472,8 +475,8 @@ namespace FHModel
             bool ok;
             string name = ToolBox.ConstraintName("R" + NameConstraints[11],
                             new List<(string, int)> { ("P", p), ("B", b) });
-            StringBuilder desc = new StringBuilder();
-            GRBLinExpr linExpr = new GRBLinExpr();
+            StringBuilder desc = new();
+            GRBLinExpr linExpr = new();
             double FinalVal = 0.0;
 
             //int period_p, int block_b, GRBVar[,,] X, GRBVar[,] A,double term = 0)
@@ -506,8 +509,8 @@ namespace FHModel
             bool ok;
             string name = ToolBox.ConstraintName("R" + NameConstraints[14],
                             new List<(string, int)> { ("S", s), ("P", p), ("B", b) });
-            StringBuilder desc = new StringBuilder();
-            GRBLinExpr linExpr = new GRBLinExpr();
+            StringBuilder desc = new();
+            GRBLinExpr linExpr = new();
             double FinalVal = 0.0;
 
             double[,] Xip = V.GetVSolByGroup("Xip")[p];
@@ -544,8 +547,8 @@ namespace FHModel
             bool ok;
             string name = ToolBox.ConstraintName("R" + NameConstraints[15],
                             new List<(string, int)> { ("I", i), ("J", j), ("P", p), ("B", b), });
-            StringBuilder desc = new StringBuilder();
-            GRBLinExpr linExpr = new GRBLinExpr();
+            StringBuilder desc = new();
+            GRBLinExpr linExpr = new();
             double FinalVal = 0.0;
 
             double[,] Xib = V.GetVSolByGroup("Xib")[p];
@@ -571,8 +574,8 @@ namespace FHModel
             bool ok;
             string name = ToolBox.ConstraintName("R" + NameConstraints[16],
                             new List<(string, int)> { ("I", i), ("J", j), ("P", p), ("B", b), ("H", h) });
-            StringBuilder desc = new StringBuilder();
-            GRBLinExpr linExpr = new GRBLinExpr();
+            StringBuilder desc = new();
+            GRBLinExpr linExpr = new();
             double FinalVal = 0.0;
 
             double[,] Xib = V.GetVSolByGroup("Xib")[p];
@@ -598,8 +601,8 @@ namespace FHModel
             bool ok;
             string name = ToolBox.ConstraintName("R" + NameConstraints[18],
                             new List<(string, int)> { ("I", i), ("J", j), ("P", p), ("B", b), ("H", h) });
-            StringBuilder desc = new StringBuilder();
-            GRBLinExpr linExpr = new GRBLinExpr();
+            StringBuilder desc = new();
+            GRBLinExpr linExpr = new();
             double FinalVal = 0.0;
 
             double[,] Xib = V.GetVSolByGroup("Xib")[p];
@@ -629,8 +632,8 @@ namespace FHModel
             bool ok;
             string name = ToolBox.ConstraintName("R" + NameConstraints[19],
                             new List<(string, int)> { ("I", i), ("J", j), ("P", p), ("B", b), ("H", h) });
-            StringBuilder desc = new StringBuilder();
-            GRBLinExpr linExpr = new GRBLinExpr();
+            StringBuilder desc = new();
+            GRBLinExpr linExpr = new();
             double FinalVal = 0.0;
 
             double[,] Xib = V.GetVSolByGroup("Xib")[p];
@@ -656,23 +659,16 @@ namespace FHModel
             return new EvalConstr(ok, linExpr, sense, rhs, name, desc.ToString());//, V);
         }
 
-        public static GRBVar GetVarByName(GRBVar[] xvars, string name)
+        public static GRBVar? GetVarByName(GRBVar[] xvars, string name)
         {
             var pickN = from v in xvars
                         where v.VarName == name
                         select v;
-            if (pickN.Any())
-            {
-                return pickN.First();
-            }
-            else
-            {
-                return null;
-            }
+            return ToolBox.CondtionalNull(pickN.Any(), pickN.First());
         }
         public List<LazyType> Lazy_M_Flow_List(GRBAuxVars xvars)
         {
-            List<LazyType> lazys = new List<LazyType>();
+            List<LazyType> lazys = new();
             for (int p = 0; p < RI.NumPeriods; p++)
             {
                 for (int i = 0; i < RI.NumNodes; i++)
@@ -691,7 +687,7 @@ namespace FHModel
         }
         public List<LazyType> Lazy_M_AgC_initialblock(GRBAuxVars xvars)
         {
-            List<LazyType> lazys = new List<LazyType>();
+            List<LazyType> lazys = new();
             for (int i = 0; i < RI.NumNodes - 1; i++)
             {
                 if (RI.Std.Nodes[i].IsFMU)
@@ -710,7 +706,7 @@ namespace FHModel
         }
         public List<LazyType> Lazy_M_AgC_varvolmax(GRBAuxVars xvars)
         {
-            List<LazyType> lazys = new List<LazyType>();
+            List<LazyType> lazys = new();
             for (int s = 0; s < RI.NumSortiments; s++)
             {
                 for (int p = 0; p < RI.NumPeriods; p++)
@@ -726,7 +722,7 @@ namespace FHModel
         }
         public List<LazyType> Lazy_M_AgC_maxarea(GRBAuxVars xvars)
         {
-            List<LazyType> lazys = new List<LazyType>();
+            List<LazyType> lazys = new();
             for (int p = 0; p < RI.NumPeriods; p++)
             {
                 for (int b = 0; b < RI.Std.MatrixPar.MaxNumBlocks; b++)
@@ -742,7 +738,7 @@ namespace FHModel
         }
         public List<LazyType> Lazy_B_AgC_createblock(GRBAuxVars xvars)
         {
-            List<LazyType> lazys = new List<LazyType>();
+            List<LazyType> lazys = new();
             for (int s = 0; s < RI.NumSortiments; s++)
             {
                 for (int p = 0; p < RI.NumPeriods; p++)
@@ -761,7 +757,7 @@ namespace FHModel
         }
         public List<LazyType> Lazy_B_AgC_nearblock(GRBAuxVars xvars)
         {
-            List<LazyType> lazys = new List<LazyType>();
+            List<LazyType> lazys = new();
             for (int i = 0; i < RI.NumNodes - 1; i++)
             {
                 if (RI.Std.GetNodeByIndex(i, RI.Std.Nodes).IsFMU)
@@ -789,7 +785,7 @@ namespace FHModel
         }
         public List<LazyType> Lazy_B_AgC_nearyear(GRBAuxVars xvars)
         {
-            List<LazyType> lazys = new List<LazyType>();
+            List<LazyType> lazys = new();
 
             for (int i = 0; i < RI.NumNodes; i++)
             {
@@ -824,11 +820,11 @@ namespace FHModel
         }
         public List<LazyType> Lazy_B_AgC_consecutive(GRBAuxVars xvars)
         {
-            List<LazyType> lazys = new List<LazyType>();
-            foreach ((int, int) adjs in RI.Std.Adjacentes)
+            List<LazyType> lazys = new();
+            foreach (Adj adjs in RI.Std.Adjacentes)
             {
-                int i = adjs.Item1;
-                int j = adjs.Item2;
+                int i = adjs.Node1.Index;
+                int j = adjs.Node2.Index;
                 for (int p = 1; p < RI.NumPeriods; p++)
                 {
                     for (int b = 0; b < RI.Std.MatrixPar.MaxNumBlocks - 1; b++)
@@ -848,7 +844,7 @@ namespace FHModel
         }
         public List<LazyType> Lazy_B_AgC_nearconsec(GRBAuxVars xvars)
         {
-            List<LazyType> lazys = new List<LazyType>();
+            List<LazyType> lazys = new();
 
             for (int i = 0; i < RI.NumNodes; i++)
             {

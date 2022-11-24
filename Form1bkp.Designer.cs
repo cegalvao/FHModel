@@ -1,6 +1,7 @@
-﻿namespace FHModel
+﻿
+namespace FHModel
 {
-    partial class Form1
+    partial class Form1bkp
     {
         /// <summary>
         /// Required designer variable.
@@ -34,7 +35,7 @@
             this.chk_log = new System.Windows.Forms.CheckBox();
             this.chk_ShowMess = new System.Windows.Forms.CheckBox();
             this.cmb_Instance = new System.Windows.Forms.ComboBox();
-            this.lbl_cmb_Instance = new System.Windows.Forms.Label();
+            this.lbl01 = new System.Windows.Forms.Label();
             this.clb_Constraints = new System.Windows.Forms.CheckedListBox();
             this.btn_MarkDesmark = new System.Windows.Forms.Button();
             this.chk_ControlConst = new System.Windows.Forms.CheckBox();
@@ -44,17 +45,18 @@
             this.clb_SlcExc = new System.Windows.Forms.CheckedListBox();
             this.lbl_clb_Constraints = new System.Windows.Forms.Label();
             this.lbl_clb_SlcExc = new System.Windows.Forms.Label();
+            this.cmB_Unity = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.btn_StressTest = new System.Windows.Forms.Button();
             this.lbl_Status = new System.Windows.Forms.Label();
             this.btn_1by1 = new System.Windows.Forms.Button();
             this.btn_AllSE = new System.Windows.Forms.Button();
             this.btnSolve_Flow = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // btnSolve_Instance
             // 
-            this.btnSolve_Instance.Location = new System.Drawing.Point(400, 220);
+            this.btnSolve_Instance.Location = new System.Drawing.Point(12, 324);
             this.btnSolve_Instance.Name = "btnSolve_Instance";
             this.btnSolve_Instance.Size = new System.Drawing.Size(100, 40);
             this.btnSolve_Instance.TabIndex = 108;
@@ -64,7 +66,7 @@
             // 
             // btnSolve_Sched
             // 
-            this.btnSolve_Sched.Location = new System.Drawing.Point(500, 180);
+            this.btnSolve_Sched.Location = new System.Drawing.Point(12, 364);
             this.btnSolve_Sched.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnSolve_Sched.Name = "btnSolve_Sched";
             this.btnSolve_Sched.Size = new System.Drawing.Size(100, 40);
@@ -76,7 +78,7 @@
             // chk_SlackExcess
             // 
             this.chk_SlackExcess.AutoSize = true;
-            this.chk_SlackExcess.Location = new System.Drawing.Point(200, 60);
+            this.chk_SlackExcess.Location = new System.Drawing.Point(13, 90);
             this.chk_SlackExcess.Name = "chk_SlackExcess";
             this.chk_SlackExcess.Size = new System.Drawing.Size(90, 19);
             this.chk_SlackExcess.TabIndex = 101;
@@ -86,7 +88,7 @@
             // chk_log
             // 
             this.chk_log.AutoSize = true;
-            this.chk_log.Location = new System.Drawing.Point(400, 50);
+            this.chk_log.Location = new System.Drawing.Point(13, 116);
             this.chk_log.Name = "chk_log";
             this.chk_log.Size = new System.Drawing.Size(74, 19);
             this.chk_log.TabIndex = 102;
@@ -96,7 +98,7 @@
             // chk_ShowMess
             // 
             this.chk_ShowMess.AutoSize = true;
-            this.chk_ShowMess.Location = new System.Drawing.Point(400, 30);
+            this.chk_ShowMess.Location = new System.Drawing.Point(13, 65);
             this.chk_ShowMess.Name = "chk_ShowMess";
             this.chk_ShowMess.Size = new System.Drawing.Size(82, 19);
             this.chk_ShowMess.TabIndex = 103;
@@ -112,20 +114,20 @@
             "Kitt10",
             "Kitt21",
             "PL"});
-            this.cmb_Instance.Location = new System.Drawing.Point(10, 30);
+            this.cmb_Instance.Location = new System.Drawing.Point(13, 30);
             this.cmb_Instance.Name = "cmb_Instance";
-            this.cmb_Instance.Size = new System.Drawing.Size(170, 23);
+            this.cmb_Instance.Size = new System.Drawing.Size(106, 23);
             this.cmb_Instance.TabIndex = 104;
             this.cmb_Instance.SelectedIndexChanged += new System.EventHandler(this.Cmb_Instance_SelectedIndexChanged);
             // 
             // lbl_cmb_Instance
             // 
-            this.lbl_cmb_Instance.AutoSize = true;
-            this.lbl_cmb_Instance.Location = new System.Drawing.Point(10, 10);
-            this.lbl_cmb_Instance.Name = "lbl_cmb_Instance";
-            this.lbl_cmb_Instance.Size = new System.Drawing.Size(51, 15);
-            this.lbl_cmb_Instance.TabIndex = 105;
-            this.lbl_cmb_Instance.Text = "Instance";
+            this.lbl01.AutoSize = true;
+            this.lbl01.Location = new System.Drawing.Point(13, 9);
+            this.lbl01.Name = "lbl_cmb_Instance";
+            this.lbl01.Size = new System.Drawing.Size(51, 15);
+            this.lbl01.TabIndex = 105;
+            this.lbl01.Text = "Instance";
             // 
             // clb_Constraints
             // 
@@ -152,16 +154,16 @@
             "18_B_AgC_sequence",
             "19_B_AgC_consecutive",
             "20_B_AgC_nearconsec"});
-            this.clb_Constraints.Location = new System.Drawing.Point(10, 150);
+            this.clb_Constraints.Location = new System.Drawing.Point(137, 87);
             this.clb_Constraints.Name = "clb_Constraints";
-            this.clb_Constraints.Size = new System.Drawing.Size(170, 400);
+            this.clb_Constraints.Size = new System.Drawing.Size(162, 382);
             this.clb_Constraints.TabIndex = 109;
             // 
             // btn_MarkDesmark
             // 
-            this.btn_MarkDesmark.Location = new System.Drawing.Point(10, 80);
+            this.btn_MarkDesmark.Location = new System.Drawing.Point(12, 244);
             this.btn_MarkDesmark.Name = "btn_MarkDesmark";
-            this.btn_MarkDesmark.Size = new System.Drawing.Size(170, 40);
+            this.btn_MarkDesmark.Size = new System.Drawing.Size(100, 40);
             this.btn_MarkDesmark.TabIndex = 110;
             this.btn_MarkDesmark.Text = "Select/Unselect all Constr.";
             this.btn_MarkDesmark.UseVisualStyleBackColor = true;
@@ -170,7 +172,7 @@
             // chk_ControlConst
             // 
             this.chk_ControlConst.AutoSize = true;
-            this.chk_ControlConst.Location = new System.Drawing.Point(10, 60);
+            this.chk_ControlConst.Location = new System.Drawing.Point(13, 142);
             this.chk_ControlConst.Name = "chk_ControlConst";
             this.chk_ControlConst.Size = new System.Drawing.Size(97, 19);
             this.chk_ControlConst.TabIndex = 111;
@@ -181,7 +183,7 @@
             // chk_SolTest
             // 
             this.chk_SolTest.AutoSize = true;
-            this.chk_SolTest.Location = new System.Drawing.Point(400, 70);
+            this.chk_SolTest.Location = new System.Drawing.Point(13, 168);
             this.chk_SolTest.Name = "chk_SolTest";
             this.chk_SolTest.Size = new System.Drawing.Size(65, 19);
             this.chk_SolTest.TabIndex = 112;
@@ -191,7 +193,7 @@
             // chk_Good
             // 
             this.chk_Good.AutoSize = true;
-            this.chk_Good.Location = new System.Drawing.Point(400, 90);
+            this.chk_Good.Location = new System.Drawing.Point(13, 194);
             this.chk_Good.Name = "chk_Good";
             this.chk_Good.Size = new System.Drawing.Size(86, 19);
             this.chk_Good.TabIndex = 113;
@@ -202,7 +204,7 @@
             // chk_Lazys
             // 
             this.chk_Lazys.AutoSize = true;
-            this.chk_Lazys.Location = new System.Drawing.Point(400, 110);
+            this.chk_Lazys.Location = new System.Drawing.Point(13, 220);
             this.chk_Lazys.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chk_Lazys.Name = "chk_Lazys";
             this.chk_Lazys.Size = new System.Drawing.Size(54, 19);
@@ -235,15 +237,15 @@
             "18_B_AgC_sequence",
             "19_B_AgC_consecutive",
             "20_B_AgC_nearconsec"});
-            this.clb_SlcExc.Location = new System.Drawing.Point(200, 150);
+            this.clb_SlcExc.Location = new System.Drawing.Point(316, 87);
             this.clb_SlcExc.Name = "clb_SlcExc";
-            this.clb_SlcExc.Size = new System.Drawing.Size(170, 400);
+            this.clb_SlcExc.Size = new System.Drawing.Size(162, 382);
             this.clb_SlcExc.TabIndex = 115;
             // 
             // lbl_clb_Constraints
             // 
             this.lbl_clb_Constraints.AutoSize = true;
-            this.lbl_clb_Constraints.Location = new System.Drawing.Point(10, 130);
+            this.lbl_clb_Constraints.Location = new System.Drawing.Point(137, 66);
             this.lbl_clb_Constraints.Name = "lbl_clb_Constraints";
             this.lbl_clb_Constraints.Size = new System.Drawing.Size(67, 15);
             this.lbl_clb_Constraints.TabIndex = 116;
@@ -252,18 +254,39 @@
             // lbl_clb_SlcExc
             // 
             this.lbl_clb_SlcExc.AutoSize = true;
-            this.lbl_clb_SlcExc.Location = new System.Drawing.Point(200, 130);
+            this.lbl_clb_SlcExc.Location = new System.Drawing.Point(316, 66);
             this.lbl_clb_SlcExc.Name = "lbl_clb_SlcExc";
             this.lbl_clb_SlcExc.Size = new System.Drawing.Size(79, 15);
             this.lbl_clb_SlcExc.TabIndex = 117;
             this.lbl_clb_SlcExc.Text = "Slack / Excess";
             // 
+            // cmB_Unity
+            // 
+            this.cmB_Unity.FormattingEnabled = true;
+            this.cmB_Unity.Items.AddRange(new object[] {
+            "C"});
+            this.cmB_Unity.Location = new System.Drawing.Point(431, 30);
+            this.cmB_Unity.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.cmB_Unity.Name = "cmB_Unity";
+            this.cmB_Unity.Size = new System.Drawing.Size(47, 23);
+            this.cmB_Unity.TabIndex = 118;
+            this.cmB_Unity.SelectedIndexChanged += new System.EventHandler(this.CmB_Unity_SelectedIndexChanged);
+            // 
+            // lbl_Unity
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(389, 32);
+            this.label1.Name = "lbl_Unity";
+            this.label1.Size = new System.Drawing.Size(35, 15);
+            this.label1.TabIndex = 119;
+            this.label1.Text = "Unity";
+            // 
             // btn_StressTest
             // 
-            this.btn_StressTest.Location = new System.Drawing.Point(400, 140);
+            this.btn_StressTest.Location = new System.Drawing.Point(137, 31);
             this.btn_StressTest.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_StressTest.Name = "btn_StressTest";
-            this.btn_StressTest.Size = new System.Drawing.Size(100, 40);
+            this.btn_StressTest.Size = new System.Drawing.Size(83, 22);
             this.btn_StressTest.TabIndex = 120;
             this.btn_StressTest.Text = "Stress";
             this.btn_StressTest.UseVisualStyleBackColor = true;
@@ -272,7 +295,7 @@
             // lbl_Status
             // 
             this.lbl_Status.AutoSize = true;
-            this.lbl_Status.Location = new System.Drawing.Point(12, 562);
+            this.lbl_Status.Location = new System.Drawing.Point(13, 481);
             this.lbl_Status.MaximumSize = new System.Drawing.Size(525, 15);
             this.lbl_Status.Name = "lbl_Status";
             this.lbl_Status.Size = new System.Drawing.Size(43, 15);
@@ -281,10 +304,10 @@
             // 
             // btn_1by1
             // 
-            this.btn_1by1.Location = new System.Drawing.Point(500, 140);
+            this.btn_1by1.Location = new System.Drawing.Point(226, 31);
             this.btn_1by1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_1by1.Name = "btn_1by1";
-            this.btn_1by1.Size = new System.Drawing.Size(100, 40);
+            this.btn_1by1.Size = new System.Drawing.Size(83, 22);
             this.btn_1by1.TabIndex = 122;
             this.btn_1by1.Text = "testes 1por1";
             this.btn_1by1.UseVisualStyleBackColor = true;
@@ -292,18 +315,18 @@
             // 
             // btn_AllSE
             // 
-            this.btn_AllSE.Location = new System.Drawing.Point(200, 80);
+            this.btn_AllSE.Location = new System.Drawing.Point(12, 284);
             this.btn_AllSE.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btn_AllSE.Name = "btn_AllSE";
-            this.btn_AllSE.Size = new System.Drawing.Size(170, 40);
+            this.btn_AllSE.Size = new System.Drawing.Size(100, 40);
             this.btn_AllSE.TabIndex = 123;
-            this.btn_AllSE.Text = "Select/Unselect all SE Constr.";
+            this.btn_AllSE.Text = "Sel./Unsel all SE Constr.";
             this.btn_AllSE.UseVisualStyleBackColor = true;
             this.btn_AllSE.Click += new System.EventHandler(this.Btn_AllSE_Click);
             // 
             // btnSolve_Flow
             // 
-            this.btnSolve_Flow.Location = new System.Drawing.Point(400, 180);
+            this.btnSolve_Flow.Location = new System.Drawing.Point(12, 404);
             this.btnSolve_Flow.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnSolve_Flow.Name = "btnSolve_Flow";
             this.btnSolve_Flow.Size = new System.Drawing.Size(100, 40);
@@ -311,21 +334,18 @@
             this.btnSolve_Flow.Text = "Solve Only Flow";
             this.btnSolve_Flow.UseVisualStyleBackColor = true;
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 600);
+            this.ClientSize = new System.Drawing.Size(496, 522);
             this.Controls.Add(this.btnSolve_Flow);
             this.Controls.Add(this.btn_AllSE);
             this.Controls.Add(this.btn_1by1);
             this.Controls.Add(this.lbl_Status);
             this.Controls.Add(this.btn_StressTest);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.cmB_Unity);
             this.Controls.Add(this.lbl_clb_SlcExc);
             this.Controls.Add(this.lbl_clb_Constraints);
             this.Controls.Add(this.clb_SlcExc);
@@ -335,7 +355,7 @@
             this.Controls.Add(this.chk_ControlConst);
             this.Controls.Add(this.btn_MarkDesmark);
             this.Controls.Add(this.clb_Constraints);
-            this.Controls.Add(this.lbl_cmb_Instance);
+            this.Controls.Add(this.lbl01);
             this.Controls.Add(this.cmb_Instance);
             this.Controls.Add(this.chk_ShowMess);
             this.Controls.Add(this.chk_log);
@@ -358,7 +378,7 @@
         private System.Windows.Forms.CheckBox chk_log;
         private System.Windows.Forms.CheckBox chk_ShowMess;
         private System.Windows.Forms.ComboBox cmb_Instance;
-        private System.Windows.Forms.Label lbl_cmb_Instance;
+        private System.Windows.Forms.Label lbl01;
         private System.Windows.Forms.CheckedListBox clb_Constraints;
         private System.Windows.Forms.Button btn_MarkDesmark;
         private System.Windows.Forms.CheckBox chk_ControlConst;
@@ -368,11 +388,12 @@
         private System.Windows.Forms.CheckedListBox clb_SlcExc;
         private System.Windows.Forms.Label lbl_clb_Constraints;
         private System.Windows.Forms.Label lbl_clb_SlcExc;
+        private System.Windows.Forms.ComboBox cmB_Unity;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btn_StressTest;
         private System.Windows.Forms.Label lbl_Status;
         private System.Windows.Forms.Button btn_1by1;
         private Button btn_AllSE;
         private Button btnSolve_Flow;
-        private OpenFileDialog openFileDialog1;
     }
 }

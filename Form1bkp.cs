@@ -1,9 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System.Linq.Expressions;
+using System.Text;
 
 
 namespace FHModel
 {
-    public partial class Form1 : Form
+    public partial class Form1bkp : Form
     {
         public string? NameInst = "Form1";
         public int NumConstraints = ToolBox.Constants.Constraints.Length;
@@ -13,8 +14,8 @@ namespace FHModel
         public bool ControlConst = false;
         public bool ControlSlcExc = false;
         public List<int> GoodConstraints = new() { 0, 1, 2, 3, 4, 6, 8, 9, 12, 13, 17 };
-        public List<int> SlcExcConstraints_04 = new() { 10, 14 };
-        public List<int> SlcExcConstraints_06 = new() { 15, 17, 19, 20 };
+        public List<int> SlcExcConstraints_04 = new() { 10, 14};
+        public List<int> SlcExcConstraints_06 = new() { 15, 17, 19, 20};
         public List<int> SlcExcConstraints_10 = new() { 10, 14 };
         public List<int> SlcExcConstraints_21 = new() { 10, 14 };
         public string unity = "C";
@@ -32,7 +33,7 @@ namespace FHModel
         private readonly Instance K21;
         private readonly Instance iPL;
 
-        public Form1()
+        public Form1bkp()
         {
             InitializeComponent();
 
@@ -63,6 +64,7 @@ namespace FHModel
             btn_AllSE.Enabled = false;
             ControlConst = false;
             ControlSlcExc = false;
+            cmB_Unity.SelectedItem = "C";
             this.lbl_Status.Text = "Pronto";
         }
         private void BtnRInstance_Click(object sender, EventArgs e)
@@ -94,9 +96,9 @@ namespace FHModel
             ToolBox.IfMess(parameters.ShowMessages, Pasta, "Read from");
             WriteParameters(parameters);
             _ = new ModelRotaFH(parameters);
-            (string, string) Resolvido = ($"Resolvido {Agora}", $"{tit} {Agora}");
-            ToolBox.IfMess(parameters.ShowMessages, Resolvido.Item1, Resolvido.Item2,
-                MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            (string, string) Resolvido = ($"Resolvido {Agora}", $"{tit} {Agora}");            
+            ToolBox.IfMess(parameters.ShowMessages, Resolvido.Item1, Resolvido.Item2, 
+                MessageBoxButtons.OK, MessageBoxIcon.Asterisk);            
             //Application.Exit();
             //_ = MessageBox.Show("Fechar");
             this.lbl_Status.Text = "Pronto";
@@ -146,7 +148,7 @@ namespace FHModel
                     break;
             }
 
-            return new ModelParameters(
+            return new ModelParameters( 
                 data: SelectData((string)cmb_Instance.SelectedItem),
                 useConstraints: ListConstraints,
                 showmess: SM,
@@ -158,7 +160,7 @@ namespace FHModel
                 uselog: chk_log.Checked,
                 uselazy: chk_Lazys.Checked,
                 controlConst: ControlConst,
-                Usesoltest: chk_SolTest.Checked);
+                Usesoltest: chk_SolTest.Checked); 
             //{
             //    XVar,
             //    AlphaVar,
@@ -170,7 +172,7 @@ namespace FHModel
         private void WriteParameters(ModelParameters parameters)
         {
             this.lbl_Status.Text = $"Write {parameters.fileparam}";
-            ToolBox.IfMess(parameters.ShowMessages, parameters.fileparam);
+            ToolBox.IfMess(parameters.ShowMessages, parameters.fileparam);             
             ToolBox.FileTxt(parameters.fileparam, parameters.ToString(), false);
         }
         public static CheckState BoolToCheck(bool value)
@@ -291,13 +293,13 @@ namespace FHModel
                                        (4, true), (5, true), (6, true), (7, true),
                                        (8, true), (9, true), (10, true), (11, true),
                                        (12, true), (13, true), (14, true), (15, true),
-                                       (16, true), (17, true), (18, true), (19, true),
+                                       (16, true), (17, true), (18, true), (19, true), 
                                        (20, false)},
                 new List<(int, bool)> {(0, true), (1, true), (2, true), (3, true),
                                        (4, true), (5, true), (6, true), (7, true),
                                        (8, true), (9, true), (10, true), (11, true),
                                        (12, true), (13, true), (14, true), (15, true),
-                                       (16, true), (17, true), (18, true), (19, true),
+                                       (16, true), (17, true), (18, true), (19, true), 
                                        (20, true)}
                 };
 
@@ -312,7 +314,7 @@ namespace FHModel
                 }
                 BtnRInstance_Click(sender, e);
             }
-            ToolBox.IfMess(CheckToBool(this.chk_ShowMess.CheckState), "Fechar StressTest");
+            ToolBox.IfMess(CheckToBool(this.chk_ShowMess.CheckState),"Fechar StressTest");
             this.lbl_Status.Text = "Pronto";
         }
         public void ClearConstraints()
@@ -402,8 +404,8 @@ namespace FHModel
 
             for (int i = 0; i < clb_Constraints.Items.Count; i++)
             {
-                CheckState C = GoodConstraints.Contains(i)
-                    ? chk_Good.CheckState
+                CheckState C = GoodConstraints.Contains(i) 
+                    ? chk_Good.CheckState 
                     : CheckState.Unchecked;
                 clb_Constraints.SetItemCheckState(i, C);
             }
@@ -424,18 +426,18 @@ namespace FHModel
         }
         private void CmB_Unity_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //if (cmB_Unity.SelectedItem.ToString() == "C")
-            //{
+            if (cmB_Unity.SelectedItem.ToString() == "C")
+            {
                 this.unity = "C";
                 this.Text = ToolBox.Constants.PathBase;
                 this.address = ToolBox.Constants.PathBase;
-            //}
-            //else
-            //{
-            //    this.unity = "D";
+            }
+            else
+            {
+                this.unity = "D";
                 //this.Text = ToolBox.Constants.PathBaseD;
                 //this.address = ToolBox.Constants.PathBaseD;
-            //}
+            }
         }
         private void Btn_1by1_Click(object sender, EventArgs e)
         {
@@ -452,7 +454,7 @@ namespace FHModel
                     clb_SlcExc.SetItemCheckState(i, BoolToCheck(SE));
                     BtnRInstance_Click(sender, e);
                 }
-                ToolBox.IfMess(CheckToBool(this.chk_ShowMess.CheckState), $"Restr {i}");
+                ToolBox.IfMess(CheckToBool(this.chk_ShowMess.CheckState),$"Restr {i}");
             }
             this.Text = "Form1";
         }
@@ -464,11 +466,6 @@ namespace FHModel
             {
                 clb_SlcExc.SetItemCheckState(i, C);
             }
-        }
-
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-            throw new NotImplementedException();
         }
     }
 }

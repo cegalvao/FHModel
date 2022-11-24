@@ -219,7 +219,7 @@ namespace FHModel
                             i
                         };
                         int UltimoAdicionado = i;
-                        while (matrizPred[UltimoAdicionado, j] != j)
+                        while (UltimoAdicionado != -1 && matrizPred[UltimoAdicionado, j] != j)
                         {
                             Trajetorias[i, j].Add((int)matrizPred[UltimoAdicionado, j]);
                             UltimoAdicionado = (int)matrizPred[UltimoAdicionado, j];
